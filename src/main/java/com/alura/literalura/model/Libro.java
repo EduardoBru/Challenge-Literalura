@@ -1,0 +1,68 @@
+package com.alura.literalura.model;
+
+import jakarta.persistence.*;
+import java.util.stream.Collectors;
+
+@Entity
+@Table(name = "libros")
+public class Libro {
+    @Id
+    private Long id;
+    private String titulo;
+    @Enumerated(EnumType.STRING)
+    private Idioma idioma;
+    @ManyToOne
+    private Autor autor;
+
+    public Libro() {
+    }
+
+    public Libro(DatosLibro libro){
+        this.id = libro.id();
+        this.titulo = libro.titulo();
+        this.idioma = Idioma.fromString(libro.idiomas().stream()
+                .limit(1).collect(Collectors.joining()));
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Idioma getIdioma() {
+        return idioma;
+    }
+
+    public void setIdioma(Idioma idioma) {
+        this.idioma = idioma;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
+    @Override
+    public String toString() {
+        return "\n------------ Libro ------------\n" +
+                        "id=" + id +
+                        ", titulo='" + titulo + '\'' +
+                        ", idioma=" + idioma +
+                        ", autor=" + autor +
+                "\n-----------------------------------\n";
+    }
+}
